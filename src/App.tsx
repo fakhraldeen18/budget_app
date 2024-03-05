@@ -1,6 +1,7 @@
 import "./App.css";
 import { ExpenseWrapper } from "./Components/ExpenseWrapper";
 import { IncomeWrapper } from "./Components/IncomeWrapper";
+import { TransferSaveingWrapper } from "./Components/TransferSaveingWrapper";
 
 function App() {
   return (
@@ -9,6 +10,7 @@ function App() {
       <div className="contanir">
         <IncomeWrapper />
         <ExpenseWrapper />
+        <TransferSaveingWrapper/>
       </div>
     </div>
   );
