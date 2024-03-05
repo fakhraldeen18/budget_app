@@ -1,5 +1,6 @@
-import './App.css';
-import { IncomeWrapper } from './Components/IncomeWrapper';
+import "./App.css";
+import { ExpenseWrapper } from "./Components/ExpenseWrapper";
+import { IncomeWrapper } from "./Components/IncomeWrapper";
 
 function App() {
   return (
@@ -7,6 +8,7 @@ function App() {
       <h1 className="tital">Badget app</h1>
       <div className="contanir">
         <IncomeWrapper />
+        <ExpenseWrapper />
       </div>
     </div>
   );
