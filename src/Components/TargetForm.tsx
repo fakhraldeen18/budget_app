@@ -14,7 +14,7 @@ export function TargetForm({ handelTarget, handelReset, target }) {
           value={target}
         />
       </div>
-      <Button tital="Reset" />
+      <Button title="Reset" />
     </form>
   );
 }

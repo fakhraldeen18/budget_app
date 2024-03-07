@@ -2,47 +2,39 @@ import { useState } from "react";
 import { IncomeForm } from "./IncomeForm";
 import "../App.css";
 
-type Income = {
-  source: string;
-  amount: number;
-  date: string;
-};
-export function IncomeWrapper() {
-  const [income, setIncome] = useState<Income[]>([]);
-  const [source, setSource] = useState("");
-  const [amount, setAmount] = useState(0);
-  const [incomeDate, setIncomeDate] = useState("");
-
-  const handeleIncome = (e: any) => {
+export function IncomeWrapper({
+  income,
+  setIncome,
+  incomes,
+  setIncomes,
+  setBalance,
+  balance,
+}) {
+  const handleIncome = (e: any) => {
     e.preventDefault();
-    setIncome([
-      ...income,
-      { source: source, amount: amount, date: incomeDate },
-    ]);
+    setIncomes([...incomes, income]);
   };
-  const handeleSource = (e: any) => {
-    const value = e.target.value;
-    setSource(value);
+  const handleChange = (e: any) => {
+    const { name, value } = e.target;
+    setIncome({ ...income, [name]: value });
   };
 
-  const handeleAmount = (e: any) => {
+  const handleDate = (e: any) => {
     const value = e.target.value;
-    setAmount(value);
+    setIncome({ ...income, date: value });
   };
-  const handeleDate = (e: any) => {
-    const value = e.target.value;
-    setIncomeDate(value);
-  };
+  // create a variable to  calculate the total amount of income
+  // using useEffect to pass the total amount of income
+  // useEffect(getTotalAmount(totalIncome))
   return (
-    <section className="income-form">
+    <section className="incomes-form">
       <IncomeForm
-        handeleIncome={handeleIncome}
-        handeleSource={handeleSource}
-        handeleAmount={handeleAmount}
-        handeleDate={handeleDate}
+        handleIncome={handleIncome}
+        handleChange={handleChange}
+        handleDate={handleDate}
       />
       <ul>
-        {income.map((income) => {
+        {incomes.map((income) => {
           return (
             <li key={income.source}>
               <p> {income.source} </p>

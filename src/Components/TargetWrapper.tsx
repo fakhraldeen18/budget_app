@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { TargetForm } from "./TargetForm";
-import { TransferSaveingWrapper } from "./TransferSaveingWrapper";
+import { TransferSaveingWrapper } from "./TransferSavingWrapper";
 
-export function TargetWrapper({ TransferSaving }) {
-  const [target, setTarget] = useState(0);
+export function TargetWrapper({target, setTarget}) {
+
+
   const handelReset = (e) => {
     e.preventDefault();
     setTarget(0);
@@ -20,8 +21,6 @@ export function TargetWrapper({ TransferSaving }) {
         target={target}
       />
       <p>Target: {target}</p>
-      <p>Currnt saving : {TransferSaving}</p>
-      
       {/* <ul>
         {income.map((income) => {
           return (

@@ -1,48 +1,29 @@
 import { useState } from "react";
 import { ExpenseForm } from "./ExpenseForm";
 import "../App.css";
-type Expense = {
-  source: string;
-  amount: number;
-  date: string;
-};
-export function ExpenseWrapper({}) {
-  const [expense, setExpense] = useState<Expense[]>([]);
-  const [source, setSource] = useState("");
-  const [amount, setAmount] = useState(0);
-  const [incomeDate, setIncomeDate] = useState("");
-
-  const handeleIncome = (e: any) => {
+export function ExpenseWrapper({ expenses, setExpenses, expense, setExpense }) {
+  const handleExpense = (e: any) => {
     e.preventDefault();
-    setExpense([
-      ...expense,
-      { source: source, amount: amount, date: incomeDate },
-    ]);
+    setExpenses([...expenses, expense]);
   };
-  const handeleSource = (e: any) => {
-    const value = e.target.value;
-    setSource(value);
+  const handleChange = (e: any) => {
+    const { name, value } = e.target;
+    setExpense({ ...expense, [name]: value });
   };
-
-  const handeleAmount = (e: any) => {
+  const handleDate = (e: any) => {
     const value = e.target.value;
-    setAmount(value);
-  };
-  const handeleDate = (e: any) => {
-    const value = e.target.value;
-    setIncomeDate(value);
+    setExpense({ ...expense, date: value });
   };
   return (
-    <section className="expense-form">
+    <section className="expenses-form">
       <ExpenseForm
-        handeleIncome={handeleIncome}
-        handeleSource={handeleSource}
-        handeleAmount={handeleAmount}
-        handeleDate={handeleDate}
+        handleExpense={handleExpense}
+        handleChange={handleChange}
+        handleDate={handleDate}
       />
 
       <ul>
-        {expense.map((expense) => {
+        {expenses.map((expense) => {
           return (
             <li key={expense.source}>
               <p> {expense.source} </p>

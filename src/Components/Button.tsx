@@ -1,3 +1,3 @@
-export function Button({ tital }) {
-  return <button type="submit"> {tital}</button>;
+export function Button({ title }) {
+  return <button type="submit"> {title}</button>;
 }
