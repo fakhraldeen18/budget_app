@@ -1,12 +1,8 @@
 import { Button } from "./Button";
 
-export function IncomeForm({
-  handleIncome,
-  handleChange,
-  handleDate
-}) {
+export function IncomeForm({ handleSubmitIncome, handleChange, handleDate }) {
   return (
-    <form onSubmit={handleIncome}>
+    <form onSubmit={handleSubmitIncome}>
       <div>
         <div>
           <label htmlFor="source">Income source</label>
@@ -14,7 +10,6 @@ export function IncomeForm({
             id="source"
             name="source"
             type="text"
-            placeholder="Salary"
             onChange={handleChange}
           />
         </div>

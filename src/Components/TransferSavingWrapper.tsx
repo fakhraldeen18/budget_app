@@ -8,19 +8,20 @@ export function TransferSavingWrapper({
   setSavingTransfer,
   savingTransfer,
   balance,
+  totalSavingTransfer,
 }) {
   const handelSaving = (e) => {
     e.preventDefault();
-    setSavingTransfer(transfer);
+    setSavingTransfer([...savingTransfer, transfer]);
   };
   const handelTransfer = (e) => {
     const value = e.target.value;
-    setTransfer(value);
+    setTransfer({ saving: value });
   };
   return (
     <section>
       <p>Current balance : {balance}</p>
-      <p>Current saving: {savingTransfer}</p>
+      <p>Current saving: {totalSavingTransfer}</p>
       <TransferSavingForm
         handelSaving={handelSaving}
         handelTransfer={handelTransfer}

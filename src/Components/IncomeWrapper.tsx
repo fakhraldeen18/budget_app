@@ -7,39 +7,36 @@ export function IncomeWrapper({
   setIncome,
   incomes,
   setIncomes,
-  setBalance,
-  balance,
+  handleDeleteIncome,
 }) {
-  const handleIncome = (e: any) => {
+  const handleSubmitIncome = (e) => {
     e.preventDefault();
-    setIncomes([...incomes, income]);
+    setIncomes([...incomes, { ...income, id: +new Date() }]);
   };
-  const handleChange = (e: any) => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
     setIncome({ ...income, [name]: value });
   };
 
-  const handleDate = (e: any) => {
+  const handleDate = (e) => {
     const value = e.target.value;
     setIncome({ ...income, date: value });
   };
-  // create a variable to  calculate the total amount of income
-  // using useEffect to pass the total amount of income
-  // useEffect(getTotalAmount(totalIncome))
   return (
     <section className="incomes-form">
       <IncomeForm
-        handleIncome={handleIncome}
+        handleSubmitIncome={handleSubmitIncome}
         handleChange={handleChange}
         handleDate={handleDate}
       />
       <ul>
         {incomes.map((income) => {
           return (
-            <li key={income.source}>
+            <li key={income.id}>
               <p> {income.source} </p>
               <p>{income.amount} </p>
               <p> {income.date}</p>
+              <button onClick={() => handleDeleteIncome(income.id)}> Delete </button>
             </li>
           );
         })}

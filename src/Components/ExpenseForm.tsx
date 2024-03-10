@@ -1,9 +1,9 @@
 import React from "react";
 import { Button } from "./Button";
 
-export function ExpenseForm({ handleExpense, handleChange, handleDate }) {
+export function ExpenseForm({ handleSubmitExpense, handleChange, handleDate }) {
   return (
-    <form onSubmit={handleExpense}>
+    <form onSubmit={handleSubmitExpense}>
       <div>
         <div>
           <label htmlFor="source">Expense source</label>
@@ -11,7 +11,6 @@ export function ExpenseForm({ handleExpense, handleChange, handleDate }) {
             id="source"
             type="text"
             name="source"
-            placeholder="Salary"
             onChange={handleChange}
           />
         </div>

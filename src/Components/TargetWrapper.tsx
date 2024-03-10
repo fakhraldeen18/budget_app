@@ -21,17 +21,6 @@ export function TargetWrapper({target, setTarget}) {
         target={target}
       />
       <p>Target: {target}</p>
-      {/* <ul>
-        {income.map((income) => {
-          return (
-            <li key={income.source}>
-              <p> {income.source} </p>
-              <p>{income.amount} </p>
-              <p> {income.date}</p>
-            </li>
-          );
-        })}
-      </ul> */}
     </section>
   );
 }
