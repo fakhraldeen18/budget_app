@@ -1,7 +1,14 @@
-import { useState } from "react";
+import { ChangeEvent, FormEvent } from "react";
 import { Button } from "./Button";
 
-export function TargetForm({ handelTarget, handelReset, target }) {
+
+type TargetFormProps = {
+  handelTarget: (e: ChangeEvent<HTMLInputElement>) => void;
+  handelReset: (e: FormEvent) => void;
+  target: number;
+};
+
+export function TargetForm({ handelTarget, handelReset, target }: TargetFormProps) {
   return (
     <form onSubmit={handelReset}>
       <div>

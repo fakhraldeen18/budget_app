@@ -1,7 +1,21 @@
-import { useState } from "react";
+import { ChangeEvent, FormEvent } from "react";
 import { TransferSavingForm } from "./TransferSavingForm";
-import { TargetWrapper } from "./TargetWrapper";
+import { Saving } from "../App";
 
+type TransferSavingWrapperProps = {
+  transfer: {
+    saving: number;
+  };
+  setTransfer: React.Dispatch<
+    React.SetStateAction<{
+      saving: number;
+    }>
+  >;
+  setSavingTransfer: React.Dispatch<React.SetStateAction<Saving[]>>;
+  savingTransfer: Saving[];
+  balance: number;
+  totalSavingTransfer: number;
+};
 export function TransferSavingWrapper({
   setTransfer,
   transfer,
@@ -9,14 +23,14 @@ export function TransferSavingWrapper({
   savingTransfer,
   balance,
   totalSavingTransfer,
-}) {
-  const handelSaving = (e) => {
+}: TransferSavingWrapperProps) {
+  const handelSaving = (e: FormEvent) => {
     e.preventDefault();
     setSavingTransfer([...savingTransfer, transfer]);
   };
-  const handelTransfer = (e) => {
+  const handelTransfer = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    setTransfer({ saving: value });
+    setTransfer({ saving: +value });
   };
   return (
     <section>

@@ -1,17 +1,19 @@
-import { useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import { TargetForm } from "./TargetForm";
-import { TransferSaveingWrapper } from "./TransferSavingWrapper";
 
-export function TargetWrapper({target, setTarget}) {
+type TargetWrapperProps = {
+  setTarget: React.Dispatch<React.SetStateAction<number>>;
+  target: number;
+};
 
-
-  const handelReset = (e) => {
+export function TargetWrapper({ target, setTarget }: TargetWrapperProps) {
+  const handelReset = (e: FormEvent) => {
     e.preventDefault();
     setTarget(0);
   };
-  const handelTarget = (e) => {
-    const value = e.target.value;
-    setTarget(value);
+  const handelTarget = (e: ChangeEvent<HTMLInputElement>) => {
+    const {value} = e.target;
+    setTarget(+value);
   };
   return (
     <section className="income-form">

@@ -1,6 +1,14 @@
+import { ChangeEvent, FormEvent } from "react";
 import { Button } from "./Button";
 
-export function TransferSavingForm({ handelSaving, handelTransfer }) {
+type TransferSavingFormProps = {
+  handelSaving: (e: FormEvent) => void;
+  handelTransfer: (e: ChangeEvent<HTMLInputElement>) => void;
+};
+export function TransferSavingForm({
+  handelSaving,
+  handelTransfer,
+}: TransferSavingFormProps) {
   return (
     <form onSubmit={handelSaving}>
       <div>
