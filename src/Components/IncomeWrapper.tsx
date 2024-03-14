@@ -1,7 +1,9 @@
-import { ChangeEvent, FormEvent, useState } from "react";
 import "../App.css";
 import { Form } from "./From";
 import { ListItems } from "./ListItems";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 type IncomeWrapperProps = {
   incomes: Income[];
@@ -15,53 +17,40 @@ export type Income = {
   date: string;
 };
 
-const Inputs_Income = [
-  {
-    label: "Income source",
-    id: "source",
-    name: "source",
-    type: "text",
-  },
-  {
-    label: "Amount of income",
-    id: "amount",
-    name: "amount",
-    type: "number",
-  },
-];
+export const UserSchema = z.object({
+  source: z.string().min(3, { message: "3 characters or more" }),
+  amount: z.number().min(1, { message: "1 number or more " }),
+  date: z.date().transform((val) => new Date(val).toLocaleDateString()),
+});
+type IncomeUserSchema = z.infer<typeof UserSchema>;
 
 export function IncomeWrapper({
   incomes,
   setIncomes,
   handleDeleteIncome,
 }: IncomeWrapperProps) {
-  const [income, setIncome] = useState({
-    id: +new Date(),
-    source: "",
-    amount: 0,
-    date: "",
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setError,
+  } = useForm<IncomeUserSchema>({
+    resolver: zodResolver(UserSchema),
   });
-  const handleSubmitIncome = (e: FormEvent) => {
-    e.preventDefault();
-    setIncomes([...incomes, { ...income, id: +new Date() }]);
-  };
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setIncome({ ...income, [name]: value });
-  };
 
-  const handleDate = (e: ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setIncome({ ...income, date: value });
+  const onSubmit = async (data: IncomeUserSchema) => {
+    console.log("SUCCESS", data);
+    setIncomes([...incomes, { ...data, id: +new Date() }]);  
   };
   return (
     <section className="incomes-form">
       <Form
-        handleSubmit={handleSubmitIncome}
-        handleChange={handleChange}
-        handleDate={handleDate}
+        handleSubmit={handleSubmit}
+        onSubmit={onSubmit}
+        register={register}
+        errors={errors}
+        label="Income"
         title="Add income"
-        inputs={Inputs_Income}
       />
       <ListItems items={incomes} handleDelete={handleDeleteIncome} />
     </section>

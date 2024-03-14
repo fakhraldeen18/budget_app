@@ -1,6 +1,9 @@
 import { ChangeEvent, FormEvent } from "react";
 import { TransferSavingForm } from "./TransferSavingForm";
-import { Saving } from "../App";
+import { Saving } from "../Pages/App";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 type TransferSavingWrapperProps = {
   transfer: {
@@ -14,31 +17,44 @@ type TransferSavingWrapperProps = {
   setSavingTransfer: React.Dispatch<React.SetStateAction<Saving[]>>;
   savingTransfer: Saving[];
   balance: number;
-  totalSavingTransfer: number;
 };
+
+export const UserSchema = z.object({
+  saving: z.number().min(1, { message: "1 number or more " })
+});
+type SavingUserSchema = z.infer<typeof UserSchema>;
+
+
 export function TransferSavingWrapper({
   setTransfer,
   transfer,
   setSavingTransfer,
   savingTransfer,
   balance,
-  totalSavingTransfer,
 }: TransferSavingWrapperProps) {
-  const handelSaving = (e: FormEvent) => {
-    e.preventDefault();
-    setSavingTransfer([...savingTransfer, transfer]);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setError,
+  } = useForm<Saving>({
+    resolver: zodResolver(UserSchema),
+  });
+
+  const onSubmit = async (data: Saving) => {
+    console.log("SUCCESS", data);
+    setSavingTransfer([...savingTransfer, data]);
   };
-  const handelTransfer = (e: ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setTransfer({ saving: +value });
-  };
+
   return (
     <section>
       <p>Current balance : {balance}</p>
-      <p>Current saving: {totalSavingTransfer}</p>
       <TransferSavingForm
-        handelSaving={handelSaving}
-        handelTransfer={handelTransfer}
+        handleSubmit={handleSubmit}
+        onSubmit={onSubmit}
+        register={register}
+        errors={errors}
       />
     </section>
   );

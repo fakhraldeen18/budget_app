@@ -1,7 +1,9 @@
 import "../App.css";
-import { ChangeEvent, FormEvent, useState } from "react";
 import { Form } from "./From";
 import { ListItems } from "./ListItems";
+import { z } from "zod"; // Add new import
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 export type Expense = {
   id: number;
@@ -16,51 +18,41 @@ type ExpenseWrapperProps = {
   handleDeleteExpense: (id: number) => void;
 };
 
-const Inputs_Expense = [
-  {
-    label: "Expense source",
-    id: "source",
-    name: "source",
-    type: "text",
-  },
-  {
-    label: "Amount of expense",
-    id: "amount",
-    name: "amount",
-    type: "number",
-  },
-];
+export const UserSchema = z.object({
+  source: z.string().min(3, { message: "3 characters or more" }),
+  amount: z.number().min(1, { message: "1 number or more " }),
+  date: z.date().transform((val) => new Date(val).toLocaleDateString()),
+});
+type ExpenseUserSchema = z.infer<typeof UserSchema>;
+
 export function ExpenseWrapper({
   expenses,
   setExpenses,
   handleDeleteExpense,
 }: ExpenseWrapperProps) {
-  const [expense, setExpense] = useState({
-    id: +new Date(),
-    source: "",
-    amount: 0,
-    date: "",
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setError,
+  } = useForm<Expense>({
+    resolver: zodResolver(UserSchema),
   });
-  const handleSubmitExpense = (e: FormEvent) => {
-    e.preventDefault();
-    setExpenses([...expenses, { ...expense, id: +new Date() }]);
-  };
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setExpense({ ...expense, [name]: value });
-  };
-  const handleDate = (e: ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setExpense({ ...expense, date: value });
+
+  const onSubmit = async (data: Expense) => {
+    console.log("SUCCESS", data);
+    setExpenses([...expenses, { ...data, id: +new Date() }]);
   };
   return (
     <section className="expenses-form">
       <Form
-        handleSubmit={handleSubmitExpense}
-        handleChange={handleChange}
-        handleDate={handleDate}
+        handleSubmit={handleSubmit}
+        onSubmit={onSubmit}
+        register={register}
+        errors={errors}
+        label="Expense"
         title="Add expense"
-        inputs={Inputs_Expense}
       />
       <ListItems items={expenses} handleDelete={handleDeleteExpense} />
     </section>
