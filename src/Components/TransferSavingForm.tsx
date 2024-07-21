@@ -6,12 +6,14 @@ type TransferSavingFormProps = {
   onSubmit: any;
   register: any;
   errors: any;
+  balanceError: any;
 };
 export function TransferSavingForm({
   handleSubmit,
   onSubmit,
   register,
   errors,
+  balanceError,
 }: TransferSavingFormProps) {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -26,6 +28,7 @@ export function TransferSavingForm({
           })}
         />
         {errors.saving && <span>{errors.saving.message}</span>}
+        {balanceError && <span>{balanceError}</span>}
         <Button title="Transfer" />
       </div>
     </form>

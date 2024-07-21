@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import { TransferSavingForm } from "./TransferSavingForm";
 import { Saving } from "../Pages/App";
 import { z } from "zod";
@@ -6,33 +6,21 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 type TransferSavingWrapperProps = {
-  transfer: {
-    saving: number;
-  };
-  setTransfer: React.Dispatch<
-    React.SetStateAction<{
-      saving: number;
-    }>
-  >;
   setSavingTransfer: React.Dispatch<React.SetStateAction<Saving[]>>;
   savingTransfer: Saving[];
   balance: number;
 };
 
 export const UserSchema = z.object({
-  saving: z.number().min(1, { message: "1 number or more " })
+  saving: z.number().min(1, { message: "1 number or more " }),
 });
 type SavingUserSchema = z.infer<typeof UserSchema>;
 
-
 export function TransferSavingWrapper({
-  setTransfer,
-  transfer,
   setSavingTransfer,
   savingTransfer,
   balance,
 }: TransferSavingWrapperProps) {
-
   const {
     register,
     handleSubmit,
@@ -41,12 +29,17 @@ export function TransferSavingWrapper({
   } = useForm<Saving>({
     resolver: zodResolver(UserSchema),
   });
+  const [balanceError, setBalanceError] = useState("");
 
   const onSubmit = async (data: Saving) => {
-    console.log("SUCCESS", data);
-    setSavingTransfer([...savingTransfer, data]);
+    if (balance <= 0) {
+      setBalanceError("you Don't have enough balance ");
+      console.log("balanceError:", balanceError);
+    } else {
+      setSavingTransfer([...savingTransfer, data]);
+      setBalanceError("");
+    }
   };
-
   return (
     <section>
       <p>Current balance : {balance}</p>
@@ -55,6 +48,7 @@ export function TransferSavingWrapper({
         onSubmit={onSubmit}
         register={register}
         errors={errors}
+        balanceError={balanceError}
       />
     </section>
   );

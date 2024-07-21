@@ -11,7 +11,8 @@ type IncomeWrapperProps = {
   handleDeleteIncome: (id: number) => void;
 };
 export type Income = {
-  id: number;
+  type?:string; 
+   id: number;
   source: string;
   amount: number;
   date: string;
@@ -28,6 +29,7 @@ export function IncomeWrapper({
   incomes,
   setIncomes,
   handleDeleteIncome,
+  
 }: IncomeWrapperProps) {
   const {
     register,
@@ -39,8 +41,7 @@ export function IncomeWrapper({
   });
 
   const onSubmit = async (data: IncomeUserSchema) => {
-    console.log("SUCCESS", data);
-    setIncomes([...incomes, { ...data, id: +new Date() }]);  
+    setIncomes([...incomes, { ...data, id: +new Date(),type:'income'}]);
   };
   return (
     <section className="incomes-form">

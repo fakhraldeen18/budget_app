@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 export type Expense = {
+  type?: string;
   id: number;
   source: string;
   amount: number;
@@ -30,7 +31,6 @@ export function ExpenseWrapper({
   setExpenses,
   handleDeleteExpense,
 }: ExpenseWrapperProps) {
-
   const {
     register,
     handleSubmit,
@@ -41,8 +41,7 @@ export function ExpenseWrapper({
   });
 
   const onSubmit = async (data: Expense) => {
-    console.log("SUCCESS", data);
-    setExpenses([...expenses, { ...data, id: +new Date() }]);
+    setExpenses([...expenses, { ...data, id: +new Date() ,type: 'expense'}]);
   };
   return (
     <section className="expenses-form">

@@ -8,11 +8,12 @@ import { ProgressForm } from "../Components/ProgressForm";
 import Grid from "@mui/material/Unstable_Grid2";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
-
+import { Transaction } from "../Components/Transaction";
 
 export type Saving = {
   saving: number;
 };
+
 function App() {
   const [incomes, setIncomes] = useState<Income[]>([]);
   const totalIncome = incomes.reduce(
@@ -26,8 +27,11 @@ function App() {
     0
   );
 
+  const transactions = [...incomes, ...expenses];
+
+  console.log("transactions:", transactions);
+
   const [savingTransfer, setSavingTransfer] = useState<Saving[]>([]);
-  const [transfer, setTransfer] = useState({ saving: 0 });
   const totalSavingTransfer = savingTransfer.reduce(
     (acc, curr) => acc + Number(curr.saving),
     0
@@ -76,12 +80,13 @@ function App() {
         </Grid>
         <Grid xs={12}>
           <TransferSavingWrapper
-            transfer={transfer}
-            setTransfer={setTransfer}
             setSavingTransfer={setSavingTransfer}
             savingTransfer={savingTransfer}
             balance={balance}
           />
+        </Grid>
+        <Grid xs={12}>
+          <Transaction transactions={transactions} />
         </Grid>
       </Grid>
     </Box>
